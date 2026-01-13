@@ -1,0 +1,11 @@
+<h1>予約詳細</h1>
+
+<p>施設名: <%= @reservation.room.name %></p>
+<p>説明: <%= @reservation.room.description %></p>
+<p>住所: <%= @reservation.room.address %></p>
+<p>価格: <%= @reservation.room.price %></p>
+
+<p>チェックイン: <%= @reservation.check_in %></p>
+<p>チェックアウト: <%= @reservation.check_out %></p>
+<p>人数: <%= @reservation.people %></p>
+<p>合計金額: <%= @reservation.total_price %></p>

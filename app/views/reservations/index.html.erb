@@ -1,0 +1,12 @@
+<h1>自分の予約一覧</h1>
+
+<% @reservations.each do |reservation| %>
+  <div>
+    <p>施設名: <%= reservation.room.name %></p>
+    <p>チェックイン: <%= reservation.check_in %></p>
+    <p>チェックアウト: <%= reservation.check_out %></p>
+    <p>人数: <%= reservation.people %></p>
+    <p>合計金額: <%= reservation.total_price %></p>
+    <%= link_to '詳細', reservation_path(reservation) %>
+  </div>
+<% end %>

@@ -1,0 +1,42 @@
+<div class="hero">
+  <%= image_tag 'mainpage.jpg', alt: 'Hotel Reservation', class: 'hero-image' %>
+  <div class="hero-text">
+    <h1>次の滞在先を検索</h1>
+    <p>ホテルや旅館、一軒家など、様々な宿のお得プランをチェック</p>
+  </div>
+</div>
+
+
+<%= form_with url: searches_path, method: :get, class: 'search-form' do |form| %>
+  <div class="form-group">
+    <%= form.text_field :area, placeholder: 'エリアを入力' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.text_field :keyword, placeholder: 'キーワードを入力' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.submit '検索', class: 'btn btn-primary' %>
+  </div>
+<% end %>
+
+<h2>おすすめの目的地</h2>
+<div class="recommended-destinations">
+  <% [
+    { name: '北海道', image: 'hokkaido.jpg' },
+    { name: '東京', image: 'tokyo.jpg' },
+    { name: '神奈川', image: 'kanagawa.jpg' },
+    { name: '愛知', image: 'aichi' },
+    { name: '京都', image: 'kyoto' },
+    { name: '大阪', image: 'osaka.jpg' },
+    { name: '福岡', image: 'hukuoka.jpg' }
+  ].each do |dest| %>
+    <div class="destination-card">
+      <%= image_tag dest[:image], class: 'destination-image' %>
+      <div class="destination-name">
+        <%= link_to dest[:name], searches_path(area: dest[:name]) %>
+      </div>
+    </div>
+  <% end %>
+</div>

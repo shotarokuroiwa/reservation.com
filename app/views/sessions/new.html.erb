@@ -1,0 +1,21 @@
+<h1>ログイン</h1>
+
+<% if flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>
+
+<%= form_with url: session_path, method: :post, data: { turbo: false } do |form| %>
+  <div>
+    <%= form.label :email %>
+    <%= form.email_field :email %>
+  </div>
+
+  <div>
+    <%= form.label :password %>
+    <%= form.password_field :password %>
+  </div>
+
+  <div>
+    <%= form.submit 'ログイン', class: 'btn btn-primary' %>
+  </div>
+<% end %>

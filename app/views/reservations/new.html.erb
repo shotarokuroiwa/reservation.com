@@ -1,0 +1,35 @@
+<h1>予約作成</h1>
+
+<p>施設: <%= @room.name %></p>
+
+<% if @reservation.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@reservation.errors.count, "error") %> prohibited this reservation from being saved:</h2>
+    <ul>
+      <% @reservation.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: @reservation do |form| %>
+  <div>
+    <%= form.label :check_in %>
+    <%= form.date_field :check_in %>
+  </div>
+
+  <div>
+    <%= form.label :check_out %>
+    <%= form.date_field :check_out %>
+  </div>
+
+  <div>
+    <%= form.label :people %>
+    <%= form.number_field :people %>
+  </div>
+
+  <div>
+    <%= form.submit '予約する' %>
+  </div>
+<% end %>
