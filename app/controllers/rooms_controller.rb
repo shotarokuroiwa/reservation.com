@@ -1,8 +1,8 @@
 class RoomsController < ApplicationController
   before_action :require_login
-  before_action :set_room, only: [:show, :edit, :update, :destroy]
+  before_action :set_room, only: [ :show, :edit, :update, :destroy ]
 
-  #自分の作成した施設一覧
+  # 自分の作成した施設一覧
   def index
     @rooms = current_user.rooms
   end
@@ -22,7 +22,7 @@ class RoomsController < ApplicationController
       flash.now[:alert] = "施設の登録に失敗しました"
       render :new
     end
-  end 
+  end
 
   def edit
   end
@@ -58,5 +58,4 @@ class RoomsController < ApplicationController
   def room_params
     params.require(:room).permit(:name, :description, :price, :address, :image)
   end
-
 end

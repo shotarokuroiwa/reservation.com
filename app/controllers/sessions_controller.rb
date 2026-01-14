@@ -1,9 +1,9 @@
 class SessionsController < ApplicationController
-  #ログイン画面
+  # ログイン画面
   def new
   end
 
-  #ログイン処理
+  # ログイン処理
   def create
     user = User.find_by(email: params[:email])
     if user&.authenticate(params[:password])
@@ -14,8 +14,8 @@ class SessionsController < ApplicationController
       render :new
     end
   end
-  
-  #ログアウト
+
+  # ログアウト
   def destroy
     reset_session
     respond_to do |format|

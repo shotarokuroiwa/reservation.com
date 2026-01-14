@@ -5,16 +5,16 @@ Rails.application.routes.draw do
 
   get "/session" => "sessions#new"
 
-  resources :users, only: [:new, :create, :edit, :update]
-  resource :account, only: [:show], controller: "users"
-  resource :session, only: [:new, :create, :destroy]
+  resources :users, only: [ :new, :create, :edit, :update ]
+  resource :account, only: [ :show ], controller: "users"
+  resource :session, only: [ :new, :create, :destroy ]
 
   resources :rooms do
-    resource :reservation, only: [:new, :create]
+    resource :reservation, only: [ :new, :create ]
   end
 
-  resources :reservations, only: [:index, :show]
-  resources :searches, only: [:index]
+  resources :reservations, only: [ :index, :show ]
+  resources :searches, only: [ :index ]
 
   # Render dynamic PWA files from app/views/pwa/*
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker

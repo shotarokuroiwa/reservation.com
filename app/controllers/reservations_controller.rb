@@ -1,7 +1,7 @@
 class ReservationsController < ApplicationController
   before_action :require_login
-  before_action :set_room_reservation, only: [:new, :create]
-  
+  before_action :set_room_reservation, only: [ :new, :create ]
+
   def new
   end
 
@@ -28,14 +28,14 @@ class ReservationsController < ApplicationController
   end
 
   private
-  
+
   def set_room_reservation
     @room = Room.find(params[:room_id])
     @reservation = @room.reservations.new(reservation_params)
   rescue ActiveRecord::RecordNotFound
     redirect_to root_path, alert: "施設が見つかりません"
   end
-  
+
   def require_login
     if not current_user
       redirect_to new_session_path, notice: "ログインしてください"
@@ -50,5 +50,4 @@ class ReservationsController < ApplicationController
     days = (reservation.check_out - reservation.check_in).to_i
     days * reservation.people * reservation.room.price
   end
-
 end
