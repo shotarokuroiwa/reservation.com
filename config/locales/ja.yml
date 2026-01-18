@@ -1,0 +1,42 @@
+ja:
+  activerecord:
+    models:
+      room: 施設
+      user: ユーザー
+    attributes:
+      room:
+        name: 施設名
+        price: 価格
+        address: 住所
+      user:
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+        password_digest: パスワード
+      reservation:
+        check_in: チェックイン
+        check_out: チェックアウト
+        people: 人数
+        total_price: 合計金額
+    errors:
+      models:
+        room:
+          attributes:
+            user:
+              required: を入力してください
+        reservation:
+          attributes:
+            check_out:
+              must_be_after_check_in: はチェックインより後の日付を入力してください
+      format: "%{attribute}%{message}"
+      messages:
+        blank: を入力してください
+        required: を入力してください
+        not_a_number: は数値を入力してください
+        greater_than: は%{count}より大きい値を入力してください
+  errors:
+    format: "%{attribute}%{message}"
+    messages:
+      blank: を入力してください
+      not_a_number: は数値を入力してください
+      greater_than: は%{count}より大きい値を入力してください

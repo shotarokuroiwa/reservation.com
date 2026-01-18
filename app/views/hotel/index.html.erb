@@ -1,3 +1,4 @@
+<div class="top-page">
 <div class="hero">
   <%= image_tag 'mainpage.jpg', alt: 'Hotel Reservation', class: 'hero-image' %>
   <div class="hero-text">
@@ -17,11 +18,11 @@
   </div>
 
   <div class="form-group">
-    <%= form.submit '検索', class: 'btn btn-primary' %>
+    <%= form.submit '検索', class: 'btn-search' %>
   </div>
 <% end %>
 
-<h2>おすすめの目的地</h2>
+<h2 class="recommended-title">おすすめの目的地</h2>
 <div class="recommended-destinations">
   <% [
     { name: '北海道', image: 'hokkaido.jpg' },
@@ -30,13 +31,18 @@
     { name: '愛知', image: 'aichi' },
     { name: '京都', image: 'kyoto' },
     { name: '大阪', image: 'osaka.jpg' },
-    { name: '福岡', image: 'hukuoka.jpg' }
+    { name: '福岡', image: 'hukuoka.jpg' },
+    { name: '沖縄', image: 'okinawa.png' },
+    { name: '石川', image: 'isikawa.jpg' },
   ].each do |dest| %>
-    <div class="destination-card">
-      <%= image_tag dest[:image], class: 'destination-image' %>
-      <div class="destination-name">
-        <%= link_to dest[:name], searches_path(area: dest[:name]) %>
+    <%= link_to searches_path(area: dest[:name]), class: 'destination-card-link' do %>
+      <div class="destination-card">
+        <%= image_tag dest[:image], class: 'destination-image' %>
+        <div class="destination-name">
+          <%= dest[:name] %>
+        </div>
       </div>
-    </div>
+    <% end %>
   <% end %>
+</div>
 </div>

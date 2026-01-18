@@ -1,11 +1,62 @@
-<h1>予約詳細</h1>
+<div class="reservation-detail-container">
 
-<p>施設名: <%= @reservation.room.name %></p>
-<p>説明: <%= @reservation.room.description %></p>
-<p>住所: <%= @reservation.room.address %></p>
-<p>価格: <%= @reservation.room.price %></p>
+<div class="tag-reservation-detail">予約情報</div>
+<div class="room-detail-reservation">
+  <div class="info-item">
+    <span class="info-label">チェックイン</span>
+    <p class="info-value"><%= @reservation.check_in %></p>
+  </div>
 
-<p>チェックイン: <%= @reservation.check_in %></p>
-<p>チェックアウト: <%= @reservation.check_out %></p>
-<p>人数: <%= @reservation.people %></p>
-<p>合計金額: <%= @reservation.total_price %></p>
+  <div class="info-item">
+    <span class="info-label">チェックアウト</span>
+    <p class="info-value"><%= @reservation.check_out %></p>
+  </div>
+
+  <div class="info-item">
+    <span class="info-label">人数</span>
+    <p class="info-value"><%= @reservation.people %></p>
+  </div>
+
+  <div class="info-item">
+    <span class="info-label">合計金額</span>
+    <p class="info-value price"><%= number_with_delimiter(@reservation.total_price) %>円</p>
+  </div>
+</div>
+  
+<div class="tag-reservation-detail">施設情報</div>
+  <div class="room-detail-facility">
+    <% if @reservation.room.images.attached? %>
+      <div class="room-images-gallery">
+        <% @reservation.room.images.each do |image| %>
+          <%= image_tag image, class: 'room-image' %>
+        <% end %>
+      </div>
+    <% end %>
+        
+    <div class="info-item">
+      <span class="info-label">施設名</span>
+      <p class="info-value"><%= @reservation.room.name %></p>
+    </div>
+
+    <div class="info-item">
+      <span class="info-label">説明</span>
+      <p class="info-value"><%= @reservation.room.description %></p>
+    </div>
+
+    <div class="info-item">
+      <span class="info-label">住所</span>
+      <p class="info-value"><%= @reservation.room.address %></p>
+
+      <div class="map-container">
+        <iframe
+          width="100%"
+          height="300"
+          style="border:0"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=<%= URI.encode_www_form_component(@reservation.room.address) %>&output=embed">
+        </iframe>
+      </div>
+    </div>
+  </div>

@@ -1,6 +1,6 @@
 class RoomsController < ApplicationController
-  before_action :require_login
-  before_action :set_room, only: [ :show, :edit, :update, :destroy ]
+  before_action :require_login, except: [ :show ]
+  before_action :set_own_room, only: [ :edit, :update, :destroy ]
 
   # 自分の作成した施設一覧
   def index
@@ -8,6 +8,9 @@ class RoomsController < ApplicationController
   end
 
   def show
+    @room = Room.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path, alert: "施設が見つかりません"
   end
 
   def new
@@ -19,7 +22,6 @@ class RoomsController < ApplicationController
     if @room.save
       redirect_to rooms_path, notice: "施設を登録しました"
     else
-      flash.now[:alert] = "施設の登録に失敗しました"
       render :new
     end
   end
@@ -27,14 +29,18 @@ class RoomsController < ApplicationController
   def edit
   end
 
-  def update
-    if @room.update(room_params)
-      redirect_to room_path(@room), notice: "施設情報を更新しました"
-    else
-      flash.now[:alert] = "施設情報の更新に失敗しました"
-      render :edit
-    end
+def update
+  if params[:room][:images].present?
+    @room.images.attach(params[:room][:images])
   end
+
+  if @room.update(room_params.except(:images))
+    redirect_to room_path(@room), notice: "施設情報を更新しました"
+  else
+    render :edit
+  end
+end
+
 
   def destroy
     @room.destroy
@@ -43,10 +49,10 @@ class RoomsController < ApplicationController
 
   private
 
-  def set_room
+  def set_own_room
     @room = current_user.rooms.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to rooms_path, alert: "施設が見つかりません"
+    redirect_to rooms_path, alert: "権限がありません"
   end
 
   def require_login
@@ -56,6 +62,6 @@ class RoomsController < ApplicationController
   end
 
   def room_params
-    params.require(:room).permit(:name, :description, :price, :address, :image)
+    params.require(:room).permit(:name, :description, :price, :address, images: [])
   end
 end

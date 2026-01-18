@@ -1,16 +1,54 @@
-<h1><%= @room.name %></h1>
+<div class="room-detail-container">
+  <div class="room-detail-header">
+    <h1><%= @room.name %></h1>
+  </div>
 
-<% if @room.image.attached? %>
-  <%= image_tag @room.image %>
-<% end %>
+  
+  <div class="room-detail-content">
+    <div class="room-detail-info">
+      <% if @room.images.attached? %>
+        <div class="room-images-gallery">
+          <% @room.images.each do |image| %>
+            <%= image_tag image, class: 'room-image' %>
+          <% end %>
+        </div>
+      <% end %>
 
-<p>説明: <%= @room.description %></p>
-<p>住所: <%= @room.address %></p>
-<p>価格: <%= @room.price %></p>
+      <div class="info-item">
+        <span class="info-label">説明</span>
+        <p class="info-value"><%= simple_format(@room.description) %></p>
+      </div>
 
-<% if current_user == @room.user %>
-  <%= link_to '編集', edit_room_path(@room) %>
-  <%= link_to '削除', room_path(@room), method: :delete, data: { confirm: '本当に削除しますか?' } %>
-<% end %>
+      <div class="info-item">
+        <span class="info-label">住所</span>
+        <p class="info-value"><%= @room.address %></p>
 
-<%= link_to 'この施設を予約する', new_room_reservation_path(@room) %>
+        <div class="map-container">
+          <iframe
+            width="100%"
+            height="300"
+            style="border:0"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=<%= URI.encode_www_form_component(@room.address) %>&output=embed">
+          </iframe>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <span class="info-label">価格</span>
+        <p class="info-value price"><%= number_with_delimiter(@room.price) %>円 / 泊</p>
+      </div>
+    </div>
+
+    <div class="room-detail-actions">
+      <% if current_user == @room.user %>
+        <%= link_to '編集', edit_room_path(@room), class: 'btn btn-edit' %>
+        <%= link_to '削除', room_path(@room), data: { turbo_method: :delete, turbo_confirm: '本当に削除しますか?' }, class: 'btn btn-delete' %>
+      <% else %>
+        <%= link_to '予約する', new_room_reservation_path(@room), class: 'btn btn-reserve' %>
+      <% end %>
+    </div>
+  </div>
+</div>

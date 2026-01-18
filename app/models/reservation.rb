@@ -13,7 +13,7 @@ class Reservation < ApplicationRecord
 
   def check_in_before_check_out
     if check_in.present? && check_out.present? && check_in >= check_out
-      errors.add(:check_out, "must be after check-in")
+      errors.add(:check_out, :must_be_after_check_in)
     end
   end
 end

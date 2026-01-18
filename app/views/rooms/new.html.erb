@@ -1,8 +1,8 @@
 <h1>新規施設登録</h1>
 
 <% if @room.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@room.errors.count, "error") %> prohibited this room from being saved:</h2>
+  <div id="error_explanation" class="flash-alert">
+    <h2>施設の登録時に<%= @room.errors.count %>件のエラーが発生しました:</h2>
     <ul>
       <% @room.errors.each do |error| %>
         <li><%= error.full_message %></li>
@@ -11,15 +11,15 @@
   </div>
 <% end %>
 
-<%= form_with model: @room do |form| %>
+<%= form_with model: @room, data: { turbo: false } do |form| %>
   <div>
     <%= form.label :name %>
     <%= form.text_field :name %>
   </div>
 
   <div>
-    <%= form.label :description %>
-    <%= form.text_area :description %>
+    <%= form.label :description, '説明' %>
+    <%= form.text_area :description, class: "auto-resize-textarea", rows: 10 %>
   </div>
 
   <div>
@@ -33,11 +33,15 @@
   </div>
 
   <div>
-    <%= form.label :image %>
-    <%= form.file_field :image %>
+    <%= form.label :images, '画像' %>
+    <div class="file-upload">
+      <%= form.label :images, '画像を選択', class: 'file-upload-label' %>
+      <%= form.file_field :images, multiple: true, accept: 'image/*', class: 'file-upload-input' %>
+      <span class="file-upload-text">ファイルを選択してください</span>
+    </div>
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit '登録', class: 'btn btn-primary' %>
   </div>
 <% end %>

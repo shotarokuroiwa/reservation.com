@@ -1,13 +1,17 @@
 class ReservationsController < ApplicationController
   before_action :require_login
-  before_action :set_room_reservation, only: [ :new, :create ]
+  before_action :set_room, only: [ :new, :create ]
+  before_action :build_reservation, only: [ :create ]
 
   def new
+      @reservation = @room.reservations.new
   end
 
   def create
     @reservation.user = current_user
-    @reservation.total_price = calculate_total(@reservation)
+    if @reservation.check_in.present? && @reservation.check_out.present? && @reservation.people.present?
+      @reservation.total_price = calculate_total(@reservation)
+    end
 
     if @reservation.save
       redirect_to reservations_path, notice: "予約が確定しました"
@@ -29,11 +33,14 @@ class ReservationsController < ApplicationController
 
   private
 
-  def set_room_reservation
+  def set_room
     @room = Room.find(params[:room_id])
-    @reservation = @room.reservations.new(reservation_params)
   rescue ActiveRecord::RecordNotFound
     redirect_to root_path, alert: "施設が見つかりません"
+  end
+
+  def build_reservation
+    @reservation = @room.reservations.new(reservation_params)
   end
 
   def require_login

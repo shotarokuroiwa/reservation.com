@@ -1,17 +1,21 @@
-<h1>自分の施設一覧</h1>
+<h1>施設一覧</h1>
+<div class="facility-wrapper">
+    <%= link_to '＋', new_room_path, class: 'btn-cewateroom' %>
 
-<%= link_to '新規施設登録', new_room_path, class: 'btn-cewateroom' %>
-
-<% @rooms.each do |room| %>
-  <div>
-    <% if room.image.attached? %>
-      <%= image_tag room.image %>
+    <div class="grid-container">
+    <% @rooms.each do |room| %>
+        <%= link_to room_path(room), class: 'card-link' do %>
+        <div class="card">
+            <% if room.images.attached? %>
+            <%= image_tag room.images.first, class: 'card-image' %>
+            <% end %>
+            <div class="card-content">
+            <h3><%= room.name %></h3>
+            <p>住所: <%= room.address %></p>
+            <p>価格: <%= room.price %></p>
+            </div>
+        </div>
+        <% end %>
     <% end %>
-    <p>施設名: <%= room.name %></p>
-    <p>住所: <%= room.address %></p>
-    <p>価格: <%= room.price %></p>
-    <%= link_to '詳細', room_path(room) %>
-    <%= link_to '編集', edit_room_path(room) %>
-    <%= link_to '削除', room_path(room), method: :delete, data: { confirm: '本当に削除しますか?' } %>
-  </div>
-<% end %>
+    </div>
+</div>

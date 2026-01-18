@@ -1,12 +1,21 @@
-<h1>自分の予約一覧</h1>
-
-<% @reservations.each do |reservation| %>
-  <div>
-    <p>施設名: <%= reservation.room.name %></p>
-    <p>チェックイン: <%= reservation.check_in %></p>
-    <p>チェックアウト: <%= reservation.check_out %></p>
-    <p>人数: <%= reservation.people %></p>
-    <p>合計金額: <%= reservation.total_price %></p>
-    <%= link_to '詳細', reservation_path(reservation) %>
+<h1>予約一覧</h1>
+<div class=facility-wrapper>
+  <div class="grid-container">
+    <% @reservations.each do |reservation| %>
+      <%= link_to reservation_path(reservation), class: "card-link" do %>
+        <div class="card">
+          <% if reservation.room.images.attached? %>
+            <%= image_tag reservation.room.images.first, class: 'card-image' %>
+          <% end %>
+          <div class="card-content">
+            <h3><%= reservation.room.name %></h3>
+            <p>チェックイン: <%= reservation.check_in %></p>
+            <p>チェックアウト: <%= reservation.check_out %></p>
+            <p>人数: <%= reservation.people %>名</p>
+            <p>合計金額: <%= number_with_delimiter(reservation.total_price) %>円</p>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
   </div>
-<% end %>
+</div>

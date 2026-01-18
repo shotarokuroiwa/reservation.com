@@ -20,8 +20,13 @@
   <body>
     <header class="header">
       <div class="logo">
-        <%= link_to 'resevation.com', root_path %>
+        <%= link_to 'Resevation.com', root_path %>
       </div>
+
+      <button class="menu-toggle" aria-label="メニュー">
+        ☰
+      </button>
+
       <nav class="nav">
         <% if current_user %>
           <%= link_to '自分の予約一覧', reservations_path, class: 'nav-link' %>

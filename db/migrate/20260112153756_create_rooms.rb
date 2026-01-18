@@ -6,7 +6,6 @@ class CreateRooms < ActiveRecord::Migration[7.2]
       t.text :description
       t.integer :price, null: false
       t.string :address, null: false
-      t.string :image
 
       t.timestamps
     end
