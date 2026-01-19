@@ -4,12 +4,19 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
+# test/fixtures/reservations.yml
 one:
-  user: onn
-  start_date: 2026-01-20
-  end_date: 2026-01-25
+  user: one
+  room: room_one
+  check_in: <%= Date.today %>         
+  check_out: <%= Date.today + 3.days %> 
+  people: 2                           
+  total_price: 10000                  
 
 two:
-  user: two  # ここを追記！
-  start_date: 2026-01-21
-  end_date: 2026-01-26
+  user: two
+  room: room_two
+  check_in: <%= Date.today + 7.days %>
+  check_out: <%= Date.today + 10.days %>
+  people: 1
+  total_price: 5000
