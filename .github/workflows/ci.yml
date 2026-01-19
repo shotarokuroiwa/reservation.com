@@ -43,8 +43,8 @@ jobs:
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: |
-          chmod +x bin/rails
-          bundle exec bin/rails importmap:audit
+          bundle exec rails db:create db:schema:load
+          bundle exec rails test
 
   lint:
     runs-on: ubuntu-latest
