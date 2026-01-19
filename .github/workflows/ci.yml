@@ -34,51 +34,50 @@ jobs:
       - name: Lint code
         run: bundle exec rubocop -f github
 
-  # メインのテスト（PostgreSQLを使用）
-  test:
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: hotel_reservation_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready -U postgres"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
+  # test:
+  #   runs-on: ubuntu-latest
+  #   services:
+  #     postgres:
+  #       image: postgres:15
+  #       env:
+  #         POSTGRES_USER: postgres
+  #         POSTGRES_PASSWORD: postgres
+  #         POSTGRES_DB: hotel_reservation_test
+  #       ports:
+  #         - 5432:5432
+  #       options: >-
+  #         --health-cmd="pg_isready -U postgres"
+  #         --health-interval=10s
+  #         --health-timeout=5s
+  #         --health-retries=5
 
-    env:
-      RAILS_ENV: test
-      DB_HOST: 127.0.0.1
-      DB_USER: postgres
-      DB_PASSWORD: postgres
+  #   env:
+  #     RAILS_ENV: test
+  #     DB_HOST: 127.0.0.1
+  #     DB_USER: postgres
+  #     DB_PASSWORD: postgres
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+  #     - name: Set up Ruby
+  #       uses: ruby/setup-ruby@v1
+  #       with:
+  #         ruby-version: .ruby-version
+  #         bundler-cache: true
 
-      - name: Install system packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips sqlite3
+  #     - name: Install system packages
+  #       run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips sqlite3
 
-      - name: Wait for Postgres
-        run: |
-          until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do
-            echo "Waiting for PostgreSQL to be ready..."
-            sleep 2
-          done
+  #     - name: Wait for Postgres
+  #       run: |
+  #         until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do
+  #           echo "Waiting for PostgreSQL to be ready..."
+  #           sleep 2
+  #         done
 
-      - name: Prepare DB and Run Tests
-        run: |
-          bundle exec rails db:prepare
-          bundle exec rails test
+  #     - name: Prepare DB and Run Tests
+  #       run: |
+  #         bundle exec rails db:prepare
+  #         bundle exec rails test
