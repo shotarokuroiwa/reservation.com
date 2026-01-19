@@ -28,6 +28,7 @@ class RoomsControllerTest < ActionDispatch::IntegrationTest
   test "should get edit" do
     get edit_room_url(@room)
     assert_response :success
+    log_in_as(@user)
   end
 
   test "should update room" do
@@ -37,6 +38,6 @@ class RoomsControllerTest < ActionDispatch::IntegrationTest
 
   test "should destroy room" do
     delete room_url(@room)
-    assert_response :redirect 
+    assert_response :redirect
   end
 end

@@ -4,6 +4,7 @@ class ReservationsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @room = rooms(:room_one)
     @reservation = reservations(:one)
+    log_in_as(@user)
   end
 
   test "should get new" do
