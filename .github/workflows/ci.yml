@@ -6,68 +6,37 @@ on:
     branches: [main]
 
 jobs:
+  # 静的解析（セキュリティ）
   scan_ruby:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: .ruby-version
           bundler-cache: true
-
-      - name: Install dependencies
-        run: bundle install --jobs 4 --retry 3
-
-      - name: Scan for common Rails security vulnerabilities using static analysis
+      - name: Scan for common Rails security vulnerabilities
         run: bundle exec brakeman --no-pager
 
-  scan_js:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
-      - name: Install dependencies
-        run: bundle install --jobs 4 --retry 3
-
-      - name: Scan for security vulnerabilities in JavaScript dependencies
-        run: |
-          bundle exec rails db:create db:schema:load
-          bundle exec rails test
-
+  # コードスタイルチェック
   lint:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: .ruby-version
           bundler-cache: true
-
-      - name: Install dependencies
-        run: bundle install --jobs 4 --retry 3
-
-      - name: Lint code for consistent style
+      - name: Lint code
         run: bundle exec rubocop -f github
 
+  # メインのテスト（PostgreSQLを使用）
   test:
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres:15
@@ -83,6 +52,12 @@ jobs:
           --health-timeout=5s
           --health-retries=5
 
+    env:
+      RAILS_ENV: test
+      DB_HOST: 127.0.0.1
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -93,28 +68,17 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Install dependencies
-        run: bundle install --jobs 4 --retry 3
-
       - name: Install system packages
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips sqlite3
 
       - name: Wait for Postgres
         run: |
           until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do
-                echo "Waiting for PostgreSQL to be ready..."
-                sleep 2
-              done
-              
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 2
+          done
+
       - name: Prepare DB and Run Tests
-        env:
-          RAILS_ENV: test
-          POSTGRES_HOST: 127.0.0.1
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          DB_HOST: 127.0.0.1      
-          DB_USER: postgres
-          DB_PASSWORD: postgres
         run: |
-          bundle exec rails db:prepare RAILS_ENV=test
-          bundle exec rails test RAILS_ENV=test
+          bundle exec rails db:prepare
+          bundle exec rails test

@@ -3,6 +3,7 @@ require "test_helper"
 class ReservationsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @room = rooms(:room_one)
+    @user = users(:one)
     @reservation = reservations(:one)
     log_in_as(@user)
   end
