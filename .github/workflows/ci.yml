@@ -42,7 +42,9 @@ jobs:
         run: bundle install --jobs 4 --retry 3
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
-        run: bundle exec bin/rails importmap:audit
+        run: |
+          chmod +x bin/rails
+          bundle exec bin/rails importmap:audit
 
   lint:
     runs-on: ubuntu-latest
