@@ -10,10 +10,11 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     @user = users(:one)
     post session_url, params: { email: @user.email, password: "password" }
     assert_response :success
+    assert_redirected_to root_url
   end
 
   test "should destroy session" do
     delete session_url
-    assert_response :redirect 
+    assert_response :redirect
   end
 end

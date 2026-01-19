@@ -12,10 +12,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create user" do
     post users_url, params: { user: { name: "test", email: "t@ex.com", password: "password", password_confirmation: "password" } }
-    assert_response :success 
+    assert_response :success
   end
 
   test "should get edit" do
+    log_in_as(@user)
     get edit_user_url(@user)
     assert_response :success
   end
