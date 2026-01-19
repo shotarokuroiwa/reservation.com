@@ -5,14 +5,16 @@
 # below each fixture, per the syntax in the comments below
 #
 # test/fixtures/reservations.yml
-one:
-  user: one       # users.yml の 'one'
-  room: room_one  # rooms.yml の 'room_one'
-  start_date: <%= Date.today %>
-  end_date: <%= Date.today + 3.days %>
+room_one:
+  user: one        # users.ymlのラベル名
+  name: 素敵なホテル
+  price: 10000
+  address: 東京都渋谷区
+  description: 駅から徒歩5分です。
 
-two:
-  user: two       # users.yml の 'two'
-  room: room_two  # rooms.yml の 'room_two'
-  start_date: <%= Date.today + 7.days %>
-  end_date: <%= Date.today + 10.days %>value
+room_two:
+  user: two
+  name: 海の見える部屋
+  price: 15000
+  address: 神奈川県鎌倉市
+  description: 最高のロケーションです。

@@ -23,6 +23,8 @@ development:
 test:
   <<: *default
   database: hotel_reservation_test
+  host: <%= ENV.fetch("DB_HOST", "127.0.0.1") %>
+  port: 5432
 
 # SQLite3 write its data on the local filesystem, as such it requires
 # persistent disks. If you are deploying to a managed service, you should
