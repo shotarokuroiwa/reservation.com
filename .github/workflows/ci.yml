@@ -35,6 +35,9 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Install dependencies
+        run: bundle install --jobs 4 --retry 3
+
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bundle exec importmap:audit
 
@@ -80,13 +83,20 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Install dependencies
+        run: bundle install --jobs 4 --retry 3
+
       - name: Install packages
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips sqlite3
 
       - name: Wait for Postgres
         run: |
-          until pg_isready -h postgres -U postgres; do
-            echo "Waiting for Postgres..."
+          for i in {1..30}; do
+            if pg_isready -h localhost -U postgres; then
+              echo "Postgres is ready!"
+              break
+            fi
+            echo "Still waiting..."
             sleep 2
           done
 
