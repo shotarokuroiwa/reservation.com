@@ -1,38 +1,41 @@
 require "test_helper"
 
 class RoomsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @room = rooms(:room_one)
+  end
+
   test "should get index" do
-    get rooms_index_url
+    get rooms_url
     assert_response :success
   end
 
   test "should get show" do
-    get rooms_show_url
+    get room_url(@room)
     assert_response :success
   end
 
   test "should get new" do
-    get rooms_new_url
+    get new_room_url
     assert_response :success
   end
 
-  test "should get create" do
-    get rooms_create_url
+  test "should create room" do
+    post rooms_url, params: { room: { name: "New Room", price: 1000, address: "Test", user_id: @room.user_id } }
     assert_response :success
   end
 
   test "should get edit" do
-    get rooms_edit_url
+    get edit_room_url(@room)
     assert_response :success
   end
 
-  test "should get update" do
-    get rooms_update_url
+  test "should update room" do
+    patch room_url(@room), params: { room: { name: "Updated" } }
     assert_response :success
   end
 
-  test "should get destroy" do
-    get rooms_destroy_url
-    assert_response :success
-  end
+  test "should destroy room" do
+    delete room_url(@room)
+    assert_response :redirect 
 end

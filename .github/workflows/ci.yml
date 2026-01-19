@@ -109,10 +109,12 @@ jobs:
       - name: Prepare DB and Run Tests
         env:
           RAILS_ENV: test
-          DB_HOST: 127.0.0.1       
+          POSTGRES_HOST: localhost  
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          DB_HOST: localhost       
           DB_USER: postgres
           DB_PASSWORD: postgres
         run: |
-          sleep 5
           bundle exec rails db:prepare RAILS_ENV=test
           bundle exec rails test RAILS_ENV=test
