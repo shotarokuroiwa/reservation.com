@@ -42,7 +42,7 @@ jobs:
         run: bundle install --jobs 4 --retry 3
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
-        run: bundle exec importmap:audit
+        run: bundle exec bin/rails importmap:audit
 
   lint:
     runs-on: ubuntu-latest
@@ -107,7 +107,10 @@ jobs:
       - name: Prepare DB and Run Tests
         env:
           RAILS_ENV: test
-          DB_HOST: postgres
+          POSTGRES_HOST: localhost  # ここを localhost に
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          DB_HOST: localhost        # ここも localhost に
           DB_USER: postgres
           DB_PASSWORD: postgres
         run: |
