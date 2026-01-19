@@ -38,4 +38,5 @@ class RoomsControllerTest < ActionDispatch::IntegrationTest
   test "should destroy room" do
     delete room_url(@room)
     assert_response :redirect 
+  end
 end
