@@ -11,6 +11,8 @@ ja:
       user:
         name: 名前
         email: メールアドレス
+        current_password: 現在のパスワード
+        password_confirmation: 新しいパスワード（確認）
         password: パスワード
         password_digest: パスワード
       reservation:
@@ -20,6 +22,10 @@ ja:
         total_price: 合計金額
     errors:
       models:
+        user:
+          attributes:
+            password_confirmation:
+              confirmation: が一致しません
         room:
           attributes:
             user:

@@ -1,0 +1,48 @@
+<h1>ユーザー編集</h1>
+
+<% if @user.errors.any? %>
+  <div id="error_explanation" class="flash-alert">
+    <h2>ユーザー更新時に<%= @user.errors.count %>件のエラーが発生しました:</h2>
+    <ul>
+      <% @user.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: @user, data: { turbo: false } do |form| %>
+  <%= hidden_field_tag :edit_type, "profile" %>
+  <div>
+    <%= form.label :name, '名前' %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :introduction, '自己紹介' %>
+    <%= form.text_area :introduction, class: "auto-resize-textarea", rows: 10 %>
+  </div>
+
+  <div class="file-upload">
+    <%= form.label :icon, 'アイコン画像' %>
+    <%= form.label :icon, '画像を選択', class: 'file-upload-label' %>
+    <%= form.file_field :icon, accept: 'image/*', class: 'file-upload-input' %>
+    <span class="file-upload-text">ファイルを選択してください</span>
+  </div>
+
+  <% if @user.icon.attached? %>
+    <div style="margin-top: 15px;">
+      <p>現在のアイコン:</p>
+      <%= image_tag @user.icon, style: 'width: 150px; height: 150px; object-fit: cover; border-radius: 50%;' %>
+    </div>
+  <% else %>
+    <div style="margin-top: 15px;">
+      <p>現在のアイコン:</p>
+      <%= image_tag 'default_icon.png', style: 'width: 150px; height: 150px; object-fit: cover; border-radius: 50%;' %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.submit '更新', class: 'btn btn-primary' %>
+  </div>
+<% end %>

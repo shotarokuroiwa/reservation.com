@@ -1,0 +1,29 @@
+<h1 class=profile_title>マイページ</h1>
+
+<div class="user-show-container">
+  <div class="user-show-main">
+    <div class="user-ico">
+      <% if @user.icon.attached? %>
+        <%= image_tag @user.icon, alt: "#{@user.name}のアイコン", class: "user-icon-img" %>
+      <% else %>
+        <%= image_tag "default_icon.png", alt: "デフォルトアイコン", class: "user-icon-img" %>
+      <% end %>
+    </div>
+
+    <div class="user-info">
+      <div class="user-name"><%= @user.name %></div>
+      <p class="user-introduction">
+        <%= @user.introduction.presence || "自己紹介はまだありません。" %>
+      </p>
+    </div>
+  </div>
+  
+  <div class="user-detail-action">
+    <%= link_to "プロフィール編集", edit_profile_user_path(@user), class: 'profile-btn' %>
+    <%= link_to "アカウント編集", edit_account_user_path(@user), class: 'profile-btn' %>
+    <%= link_to "ログアウト", session_path, data: { turbo_method: :delete}, class: "profile-btn", onclick: "return confirm('ログアウトしますか？');"  %>
+    <%= link_to '予約一覧', reservations_path, class: 'profile-btn' %>
+    <%= link_to '施設一覧', rooms_path, class: 'profile-btn' %>
+    <%= link_to '新規施設登録', new_room_path, class: 'profile-btn' %>
+  </div>
+</div>

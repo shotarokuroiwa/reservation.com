@@ -19,7 +19,16 @@ class RoomsController < ApplicationController
 
   def create
     @room = current_user.rooms.new(room_params)
+
     if @room.save
+      if @room.images.blank?
+        @room.images.attach(
+          io: File.open(Rails.root.join("app", "assets", "images", "default_image.png")),
+          filename: "default_image.png",
+          content_type: "image/png"
+        )
+      end
+
       redirect_to rooms_path, notice: "施設を登録しました"
     else
       render :new

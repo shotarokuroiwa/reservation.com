@@ -5,7 +5,13 @@ Rails.application.routes.draw do
 
   get "/session" => "sessions#new"
 
-  resources :users, only: [ :new, :create, :edit, :update ]
+  resources :users, only: [ :new, :create, :show, :edit, :update ] do
+    member do
+      get :edit_account
+      get :edit_profile
+    end
+  end
+
   resource :account, only: [ :show ], controller: "users"
   resource :session, only: [ :new, :create, :destroy ]
 
