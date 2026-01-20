@@ -14,7 +14,8 @@
 
 <% if @rooms %>
 <h2>検索結果</h2>
-  <div class=facility-wrapper>
+<div class=facility-wrapper>
+  <p><%= @count.to_i %>件</p>
     <div class="grid-container">
       <% @rooms.each do |room| %>
         <%= link_to room_path(room), class: 'card-link' do %>
