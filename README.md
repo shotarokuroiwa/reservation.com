@@ -1,6 +1,6 @@
 # 
 
-# Scheduler Project
+# Reservation.com Project
 
 ## Requirements
 
